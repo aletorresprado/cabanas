@@ -2,8 +2,12 @@ const express = require('express');
 require('dotenv').config();
 const morgan = require('morgan');
 
-// Importar rutas
-const cabanasRoutes = require('./routes/cabanasRoutes');
+// Importar los archivos de los enrutadores
+const cabanasRoutes = require('./routes/cabanas.routes');
+const authRoutes = require('./routes/auth.routes');
+const cartRoutes = require('./routes/cart.routes');
+const favoritesRoutes = require('./routes/favorites.routes');
+const userRoutes = require('./routes/user.routes');
 
 const app = express();
 
@@ -13,9 +17,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Middleware para parsear datos de formularios
 
 
-//Rutas - Routes
-app.use('/api/v1/cabanas', cabanasRoutes);
-
+//Utilizo los enrutadores - Routes
+app.use('/api/v1/glamping', cabanasRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/cart', cartRoutes);
+app.use('/api/v1/favorites', favoritesRoutes);
+app.use('/api/v1/users', userRoutes);
 
 //Puerto
 const port = process.env.PORT || 3000;

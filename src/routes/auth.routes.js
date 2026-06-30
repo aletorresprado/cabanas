@@ -7,10 +7,10 @@ const router = express.Router();
 
 // Endpoint para obtener todos los usuarios registrados (solo para fines de prueba, no se recomienda en producción)
 
-router.get('/users', getAllUsers);
 router.post('/register', register,);
+router.get('/users', getAllUsers);
 router.post('/login', login);
-router.delete('/user/:id', deleteUser);//Parametrizado para eliminar un usuario por su ID
+// router.delete('/user/:id', deleteUser);//Parametrizado para eliminar un usuario por su ID
 
 
 module.exports = router;

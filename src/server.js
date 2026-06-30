@@ -8,8 +8,13 @@ const authRoutes = require('./routes/auth.routes');
 const cartRoutes = require('./routes/cart.routes');
 const favoritesRoutes = require('./routes/favorites.routes');
 const userRoutes = require('./routes/user.routes');
+const connectDB = require('./config/database');
+
 
 const app = express();
+
+// Llamar a la función de conexión
+connectDB();
 
 // Middleware para parsear JSON
 app.use(morgan('dev'));

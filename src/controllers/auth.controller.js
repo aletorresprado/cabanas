@@ -125,8 +125,65 @@ const getAllUsers = async(req, res) => {
   }
 };
 
+const updateUserRole = async(req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    
+    if (!role) {
+      return res.status(400).json({
+        ok: false,
+        message: "Por favor, proporcione un rol válido. 🤬",
+      });
+    }
+
+    // Validar que el rol proporcionado sea uno de los valores permitidos
+    const allowRoles = ['user', 'admin', 'superadmin']; 
+
+    if (!allowRoles.includes(role)) {
+      return res.status(400).json({
+        ok: false,
+        message: `El rol proporcionado no es válido. Los roles permitidos son: ${allowRoles.join(', ')}. 😌`,
+      });
+    }
+    // Buscar y actualizar el rol del usuario por su ID
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { role },
+      { new: true, runValidators: true }  // Devuelve el documento actualizado
+    ).select('-password');
+
+      if(!updatedUser){
+        return res.status(404).json({
+          ok: false,
+          message: "Usuario no encontrado. 😥",
+        })
+      }
+      return res.status(200).json({
+        ok: true,
+        message: "Rol del usuario actualizado exitosamente. 😎",
+        user: {
+          id: updatedUser._id,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          role: updatedUser.role  
+        }
+      });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ 
+      ok: false,
+      message: error.message
+    });
+  } 
+}
+
+
 module.exports = {
   register,
   login,
-  getAllUsers 
+  getAllUsers, 
+  updateUserRole
 };
